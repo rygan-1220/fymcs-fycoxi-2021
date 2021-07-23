@@ -1,19 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="fymcs.png" />
-    <title>Sample</title>
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js"></script>
 </head>
 <body>
-    <h1>Sample</h1>
-    <form action="action.php" method="post">
-        <input type="text" name="name" placeholder="Name">
-        <input type="submit">
-        <h2>字体，字体大小，文字位置可以根据需求更改</h2>
+<div id="app">
+    
+    <v-app id="inspire">
+    
+        <v-card class="mx-auto" style="width: 800px; padding: 15px">
+            <v-form id="form" ref="form" v-model="valid" lazy-validation @submit.prevent="onSubmit">
+                <p>输入名字</p>
+                <v-text-field v-model="name" :counter="30" :rules="nameRules" label="姓名 Name" @keypress="showImg = false" required></v-text-field>
+                <v-btn type="submit" color="success" class="mr-4" @click="validate" :disabled="!valid">查看Image</v-btn>
+            </v-form>
+            <br>
+            <img v-if="showImg" :src="'action.php?name=' + name" width="770px">
+        </v-card>
+    </v-app>
+    
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        data: () => ({
+            valid: true,
+            name: '',
+            showImg: false,
+            nameRules: [
+                v => !!v || '必须填写姓名 Required',
+                v => (v && v.length <= 30) || '姓名需少于30字 Less than 30 letters',
+            ],
+        }),
 
-    </form>
+        methods: {
+            validate () {
+                this.$refs.form.validate()
+            },
+            reset () {
+                this.$refs.form.reset()
+            },
+            resetValidation () {
+                this.$refs.form.resetValidation()
+            },
+            onSubmit () {
+                this.showImg = true
+            },
+        },
+    })
+</script>
 </body>
 </html>
