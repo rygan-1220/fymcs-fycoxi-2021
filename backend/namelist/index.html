@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电子票后台</title>
+
+    <!-- vuejs -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <!-- <script type="module" src="/vue.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js"></script>
+
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> 
+
+
+</head>
+
+<body>
+    <div class="container mt-4" id="app">
+
+        <table>
+          <thead >
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Code</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user, index in users" >
+              <td>{{ user.username }}</td>
+              <td>{{ user.code }}</td>
+              <td>{{ user.Date }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            users:[]
+        },
+        mounted: function () {
+            axios.get('https://localhost/backend/namelist/namelist.php')
+            .then(response => {
+              this.users = response.data;
+              console.log(response);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+    })
+</script>
+
+</html>
